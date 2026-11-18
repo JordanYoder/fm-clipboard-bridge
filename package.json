@@ -1,0 +1,158 @@
+{
+  "name": "fm-clipboard-bridge",
+  "displayName": "FileMaker Clipboard Bridge",
+  "description": "Copy and paste FileMaker scripts, steps, custom functions and more between FileMaker Pro and VS Code as XML, with a readable Script Workspace-style view.",
+  "icon": "logo.png",
+  "galleryBanner": {
+    "color": "#E6F2F7",
+    "theme": "light"
+  },
+  "categories": [
+    "Programming Languages",
+    "Formatters",
+    "Other"
+  ],
+  "keywords": [
+    "filemaker",
+    "claris",
+    "fmp",
+    "script",
+    "clipboard",
+    "xml",
+    "fmxmlsnippet"
+  ],
+  "version": "1.1.2",
+  "publisher": "JordanYoder",
+  "license": "Unlicense",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "extensionKind": [
+    "ui"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "fmBridge.pull",
+        "title": "Pull from FileMaker Clipboard",
+        "category": "FileMaker"
+      },
+      {
+        "command": "fmBridge.push",
+        "title": "Push to FileMaker Clipboard",
+        "category": "FileMaker"
+      },
+      {
+        "command": "fmBridge.smartCopy",
+        "title": "Copy (FileMaker-aware)",
+        "category": "FileMaker"
+      },
+      {
+        "command": "fmBridge.showReadable",
+        "title": "Show as FileMaker Script",
+        "category": "FileMaker",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "fmBridge.showReadableBeside",
+        "title": "Show as FileMaker Script (Side by Side)",
+        "category": "FileMaker",
+        "icon": "$(split-horizontal)"
+      },
+      {
+        "command": "fmBridge.showXml",
+        "title": "Show XML",
+        "category": "FileMaker",
+        "icon": "$(code)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "fmBridge.pull",
+        "key": "ctrl+alt+t"
+      },
+      {
+        "command": "fmBridge.push",
+        "key": "ctrl+alt+f",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "fmBridge.smartCopy",
+        "key": "ctrl+c",
+        "when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections && config.fmBridge.smartCopy"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "fmBridge.smartCopy",
+          "when": "false"
+        },
+        {
+          "command": "fmBridge.showReadable",
+          "when": "editorLangId == xml"
+        },
+        {
+          "command": "fmBridge.showReadableBeside",
+          "when": "editorLangId == xml"
+        },
+        {
+          "command": "fmBridge.showXml",
+          "when": "resourceScheme == fmscript"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "fmBridge.showReadable",
+          "alt": "fmBridge.showReadableBeside",
+          "group": "navigation",
+          "when": "editorLangId == xml"
+        },
+        {
+          "command": "fmBridge.showXml",
+          "group": "navigation",
+          "when": "resourceScheme == fmscript"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "FileMaker Clipboard Bridge",
+      "properties": {
+        "fmBridge.smartCopy": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ctrl+C on a selection of FileMaker XML also copies it in FileMaker's format, so Ctrl+V in FileMaker pastes the steps/script. Other copies are unaffected."
+        },
+        "fmBridge.convertOnFocus": {
+          "type": "boolean",
+          "default": true,
+          "description": "When VS Code regains focus and FileMaker data is on the clipboard, add its XML as plain text so a normal Ctrl+V pastes it."
+        },
+        "fmBridge.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a Python 3.7+ executable. Leave empty to auto-detect (python, py -3, python3). Only used if the bundled fm_clip_bridge.exe is missing or blocked."
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "fmscript",
+        "aliases": [
+          "FileMaker Script (view)"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "fmscript",
+        "scopeName": "source.fmscript",
+        "path": "./syntaxes/fmscript.tmLanguage.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "FileMaker Script (readable view)",
+  "scopeName": "source.fmscript",
+  "patterns": [
+    { "include": "#header" },
+    { "include": "#disabled" },
+    { "include": "#comment" },
+    { "include": "#controlStep" },
+    { "include": "#step" },
+    { "include": "#inline" }
+  ],
+  "repository": {
+    "header": {
+      "match": "^━━ .* ━━$",
+      "name": "markup.heading.fmscript entity.name.section.fmscript"
+    },
+    "disabled": {
+      "match": "^\\s*//.*$",
+      "name": "comment.block.disabled.fmscript"
+    },
+    "comment": {
+      "match": "^\\s*#.*$",
+      "name": "comment.line.number-sign.fmscript"
+    },
+    "controlStep": {
+      "match": "^(\\s*)(If|Else If|Else|End If|Loop|Exit Loop If|End Loop|Exit Script|Halt Script|Perform Script(?: on Server)?|Open Transaction|Commit Transaction|Revert Transaction)(?= \\[ |\\s*$)",
+      "captures": { "2": { "name": "keyword.control.fmscript" } }
+    },
+    "step": {
+      "match": "^(\\s*)([A-Z][A-Za-z0-9/&' ()-]*?)(?= \\[ |\\s*$)",
+      "captures": { "2": { "name": "entity.name.function.fmscript" } }
+    },
+    "inline": {
+      "patterns": [
+        { "match": "\"(?:[^\"\\\\]|\\\\.)*\"", "name": "string.quoted.double.fmscript" },
+        { "match": "\\$\\$?[A-Za-z0-9_.~]+", "name": "variable.other.fmscript" },
+        { "match": "[A-Za-z_][A-Za-z0-9_ .]*::[A-Za-z0-9_.]+", "name": "variable.other.property.fmscript" },
+        { "match": "(?<=\\[ |; )[A-Z][A-Za-z ]*?:(?!:)", "name": "variable.parameter.fmscript" },
+        { "match": "\\b(?:On|Off|True|False)\\b", "name": "constant.language.fmscript" },
+        { "match": "\\b\\d+(?:\\.\\d+)?\\b", "name": "constant.numeric.fmscript" },
+        { "match": "[\\[\\]]", "name": "punctuation.section.brackets.fmscript" },
+        { "match": "\\s;\\s", "name": "punctuation.separator.fmscript" }
+      ]
+    }
+  }
+}

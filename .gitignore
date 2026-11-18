@@ -1,0 +1,7 @@
+__pycache__/
+*.vsix
+*.exe
+build/
+dist/
+*.spec
+node_modules/

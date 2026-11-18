@@ -1,0 +1,6 @@
+.vscode/**
+*.vsix
+build/**
+*.spec
+__pycache__/**
+.gitignore
